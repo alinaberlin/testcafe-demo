@@ -3,7 +3,7 @@ const localStorageSet = ClientFunction((key, value) =>
 	localStorage.setItem(key, value)
 )
 
-const pageUrl = `http://localhost:8081/register`
+const pageUrl = `http://localhost:8081`
 //prettier-ignore
 fixture`The user should register`
     .page(pageUrl)
@@ -24,11 +24,13 @@ fixture`The user should register`
 
 
 test(`The user should be able to register`, async t => {
+    const registerLinkSelector = Selector('a').withAttribute('href', '/register')
     const firstNameInput = Selector('input').withAttribute('name', 'firstName')
     const lastNameInput = Selector('input').withAttribute('name', 'lastName')
     const userNameInput = Selector('input').withAttribute('name', 'username')
     const passwordInput = Selector('input').withAttribute('name', 'password')
 
+    await t.click(registerLinkSelector)
     await t.typeText(firstNameInput, 'ina')
     await t.typeText(lastNameInput, 'etler')
     await t.typeText(userNameInput, 'inaBerlin')
@@ -38,11 +40,13 @@ test(`The user should be able to register`, async t => {
 })
 
 test(`The user should be able to login after registeration`, async t => {
+    const registerLinkSelector = Selector('a').withAttribute('href', '/register')
 	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
 	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
 	const userNameInput = Selector('input').withAttribute('name', 'username')
 	const passwordInput = Selector('input').withAttribute('name', 'password')
 
+    await t.click(registerLinkSelector)
 	await t.typeText(firstNameInput, 'ina')
 	await t.typeText(lastNameInput, 'etler')
 	await t.typeText(userNameInput, 'inaBerlin')
@@ -60,10 +64,12 @@ test(`The user should be able to login after registeration`, async t => {
 	await t.expect(messageLogin).contains("You're logged in with React!!")
 })
 test(`The user cannot be able to register without password `, async t => {
+    const registerLinkSelector = Selector('a').withAttribute('href', '/register')
 	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
 	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
 	const userNameInput = Selector('input').withAttribute('name', 'username')
 
+    await t.click(registerLinkSelector)
 	await t.typeText(firstNameInput, 'ina')
 	await t.typeText(lastNameInput, 'etler')
 	await t.typeText(userNameInput, 'inaBerlin')
@@ -74,11 +80,13 @@ test(`The user cannot be able to register without password `, async t => {
 })
 
 test(`The user should not be able to register with duplicate user name`, async t => {
+    const registerLinkSelector = Selector('a').withAttribute('href', '/register')
 	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
 	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
 	const userNameInput = Selector('input').withAttribute('name', 'username')
 	const passwordInput = Selector('input').withAttribute('name', 'password')
 
+    await t.click(registerLinkSelector)
 	await t.typeText(firstNameInput, 'ina')
 	await t.typeText(lastNameInput, 'etler')
 	await t.typeText(userNameInput, 'ina')

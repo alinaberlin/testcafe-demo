@@ -17,7 +17,7 @@ fixture`The user login`
 						password: '4444',
 					}])
 				)
-        await t.navigateTo(pageUrl);
+        await t.navigateTo(pageUrl)
     })
 
 //positive test
