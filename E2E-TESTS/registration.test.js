@@ -1,8 +1,26 @@
-import { Selector } from 'testcafe'
+import { Selector, ClientFunction } from 'testcafe'
+const localStorageSet = ClientFunction((key, value) =>
+	localStorage.setItem(key, value)
+)
 
+const pageUrl = `http://localhost:8081/register`
 //prettier-ignore
 fixture`The user should register`
-    .page`http://localhost:8081/register`
+    .page(pageUrl)
+    .beforeEach(async t => {
+        await localStorageSet(
+            'users',
+            JSON.stringify([
+                {
+                    firstName: 'Alina',
+                    lastName: 'Ghetler',
+                    username: 'ina',
+                    password: '4444',
+                },
+            ])
+        );
+        await t.navigateTo(pageUrl);
+    })
 
 
 test(`The user should be able to register`, async t => {
@@ -16,6 +34,57 @@ test(`The user should be able to register`, async t => {
     await t.typeText(userNameInput, 'inaBerlin')
     await t.typeText(passwordInput, '1234')
     await t.click('.btn')
-
     await t.expect(Selector(".alert").innerText).contains("Registration successful");
+})
+
+test(`The user should be able to login after registeration`, async t => {
+	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
+	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
+	const userNameInput = Selector('input').withAttribute('name', 'username')
+	const passwordInput = Selector('input').withAttribute('name', 'password')
+
+	await t.typeText(firstNameInput, 'ina')
+	await t.typeText(lastNameInput, 'etler')
+	await t.typeText(userNameInput, 'inaBerlin')
+	await t.typeText(passwordInput, '1234')
+	await t.click('.btn')
+// login tests
+    await t.wait(500)
+    const userInput = Selector('input').withAttribute('name', 'username')
+    const loginButton = Selector('.btn')
+    const messageLogin = Selector('p').innerText
+
+    await t.typeText(userInput, 'inaBerlin')
+	await t.typeText(passwordInput, '1234')
+	await t.click(loginButton)
+	await t.expect(messageLogin).contains("You're logged in with React!!")
+})
+test(`The user cannot be able to register without password `, async t => {
+	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
+	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
+	const userNameInput = Selector('input').withAttribute('name', 'username')
+
+	await t.typeText(firstNameInput, 'ina')
+	await t.typeText(lastNameInput, 'etler')
+	await t.typeText(userNameInput, 'inaBerlin')
+	await t.click('.btn')
+	await t
+		.expect(Selector('.help-block').innerText)
+		.contains('Password is required')
+})
+
+test(`The user should not be able to register with duplicate user name`, async t => {
+	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
+	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
+	const userNameInput = Selector('input').withAttribute('name', 'username')
+	const passwordInput = Selector('input').withAttribute('name', 'password')
+
+	await t.typeText(firstNameInput, 'ina')
+	await t.typeText(lastNameInput, 'etler')
+	await t.typeText(userNameInput, 'ina')
+	await t.typeText(passwordInput, '1234')
+	await t.click('.btn')
+	await t
+		.expect(Selector('.alert').innerText)
+		.contains('Username "ina" is already taken')
 })
