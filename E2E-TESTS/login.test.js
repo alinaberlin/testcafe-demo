@@ -24,6 +24,7 @@ test("User should be able to login", async (t) => {
     const userInput = Selector("input").withAttribute("name", "username");
     const passwordInput = Selector("input").withAttribute("name", "password");
 
+    await t.takeScreenshot({fullPage:true})
     await t.typeText(userInput, "tilda");
     await t.typeText(passwordInput, "4444");
     await t.click(".btn");
