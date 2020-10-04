@@ -19,7 +19,7 @@ fixture`The user should register`
                 },
             ])
         );
-        await t.navigateTo(pageUrl);
+        await t.navigateTo(pageUrl)
     })
 
 

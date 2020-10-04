@@ -10,37 +10,28 @@ fixture`The user login`
     .beforeEach(async t => {
         await localStorageSet(
 					'users',
-					JSON.stringify([
-						{
-							firstName: 'Alina',
-							lastName: 'Ghetler',
-							username: 'tilda',
-							password: '4444',
-						},
-						{
-							firstName: 'Alina2',
-							lastName: 'Ghetler',
-							username: 'tilda2',
-							password: '4444',
-						},
-					])
+					JSON.stringify([{
+						firstName: 'Alina',
+						lastName: 'Ghetler',
+						username: 'tilda',
+						password: '4444',
+					}])
 				)
         await t.navigateTo(pageUrl)
     })
 
-//positive test
-test('User should be able to delete an user', async t => {
+test('User should be able to logout', async t => {
 	const userInput = Selector('input').withAttribute('name', 'username')
 	const passwordInput = Selector('input').withAttribute('name', 'password')
 	const loginButton = Selector('.btn')
-    const messageLogin = Selector('p').innerText
-    const deleteButton = Selector('li').withText('Alina2 Ghetler').child('span').child('a')
+	const messageLogin = Selector('p').innerText
+	const logoutLink = Selector('a').withAttribute('href', '/login')
+	const loginButtonText = loginButton.innerText
 
 	await t.takeScreenshot({ fullPage: true })
 	await t.typeText(userInput, 'tilda')
 	await t.typeText(passwordInput, '4444')
 	await t.click(loginButton)
-    await t.expect(messageLogin).contains("You're logged in with React!!")
-    await t.click(deleteButton)
-    await t.expect(deleteButton.exists).notOk()
+	await t.click(logoutLink)
+	await t.expect(loginButtonText).contains('Login')
 })

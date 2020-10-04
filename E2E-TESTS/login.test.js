@@ -46,20 +46,3 @@ test('User cannot login with the invalid credentials', async t => {
 		.expect(Selector('.alert-danger').innerText)
 		.contains('Username or password is incorrect')
 })
-test('User should be able to login', async t => {
-	const userInput = Selector('input').withAttribute('name', 'username')
-	const passwordInput = Selector('input').withAttribute('name', 'password')
-	const loginButton = Selector('.btn')
-    const messageLogin = Selector('p').innerText
-    const logoutLink = Selector('a').withAttribute('href', '/login')
-    const loginButtonText = loginButton.innerText
-
-	await t.takeScreenshot({ fullPage: true })
-	await t.typeText(userInput, 'tilda')
-	await t.typeText(passwordInput, '4444')
-	await t.click(loginButton)
-    await t.expect(messageLogin).contains("You're logged in with React!!")
-    await t.click(logoutLink)
-    await t.expect(loginButtonText).contains('Login')
-
-})
