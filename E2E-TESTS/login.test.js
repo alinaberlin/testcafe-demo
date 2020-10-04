@@ -24,10 +24,24 @@ test("User should be able to login", async (t) => {
     const userInput = Selector("input").withAttribute("name", "username");
     const passwordInput = Selector("input").withAttribute("name", "password");
 
-    await t.takeScreenshot({fullPage:true})
-    await t.typeText(userInput, "tilda");
-    await t.typeText(passwordInput, "4444");
-    await t.click(".btn");
+    await t
+        .takeScreenshot({ fullPage: true })
+        .typeText(userInput, "tilda")
+        .typeText(passwordInput, "4444")
+        .click(".btn");
 
-    //await t.expect(Selector(".alert").innerText).contains("Registration successful");
+
 });
+test('User cannot login with the invalid credentials', async t => {
+    const userInput = Selector("input").withAttribute("name", "username");
+    const passwordInput = Selector("input").withAttribute("name", "password");
+
+    await t
+        .takeScreenshot({ fullPage: true })
+	    .typeText(userInput, 'invalid username', {paste:true})
+	    .typeText(passwordInput, 'invalid password', { paste: true })
+        .click('.btn')
+        .expect(Selector('.alert-danger').innerText)
+        .contains('Username or password is incorrect')
+
+})
