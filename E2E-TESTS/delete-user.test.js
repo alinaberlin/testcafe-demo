@@ -18,8 +18,8 @@ fixture`The user login`
 							password: '4444',
 						},
 						{
-							firstName: 'Alina2',
-							lastName: 'Ghetler',
+							firstName: 'Jojo',
+							lastName: 'Palmiera',
 							username: 'tilda2',
 							password: '4444',
 						},
@@ -34,7 +34,7 @@ test('User should be able to delete an user', async t => {
 	const passwordInput = Selector('input').withAttribute('name', 'password')
 	const loginButton = Selector('.btn')
     const messageLogin = Selector('p').innerText
-    const deleteButton = Selector('li').withText('Alina2 Ghetler').child('span').child('a')
+    const deleteButton = Selector('ul').child('li').withText('Jojo Palmiera').child('span').child('a')
 
 	await t.takeScreenshot({ fullPage: true })
 	await t.typeText(userInput, 'tilda')
