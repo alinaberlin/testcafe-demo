@@ -1,4 +1,9 @@
 import { Selector, ClientFunction } from 'testcafe'
+
+import LoginPage from './page-objects/pages/LoginPage'
+
+const login = new LoginPage()
+
 const localStorageSet = ClientFunction((key, value) =>
 	localStorage.setItem(key, value)
 )
@@ -44,7 +49,8 @@ test(`The user should be able to login after registeration`, async t => {
 	const firstNameInput = Selector('input').withAttribute('name', 'firstName')
 	const lastNameInput = Selector('input').withAttribute('name', 'lastName')
 	const userNameInput = Selector('input').withAttribute('name', 'username')
-	const passwordInput = Selector('input').withAttribute('name', 'password')
+    const passwordInput = Selector('input').withAttribute('name', 'password')
+
 
     await t.click(registerLinkSelector)
 	await t.typeText(firstNameInput, 'ina')
@@ -54,13 +60,11 @@ test(`The user should be able to login after registeration`, async t => {
 	await t.click('.btn')
 // login tests
     await t.wait(500)
-    const userInput = Selector('input').withAttribute('name', 'username')
-    const loginButton = Selector('.btn')
     const messageLogin = Selector('p').innerText
 
-    await t.typeText(userInput, 'inaBerlin')
-	await t.typeText(passwordInput, '1234')
-	await t.click(loginButton)
+    await login.typeUsername(t, 'inaBerlin')
+	await login.typePassword(t, '1234')
+	await login.clickLogin(t)
 	await t.expect(messageLogin).contains("You're logged in with React!!")
 })
 test(`The user cannot be able to register without password `, async t => {
