@@ -8,10 +8,10 @@ class LoginPage {
 	}
 
 	async typeUsername(t, username) {
-		await t.typeText(this.userInput, username)
+		await t.typeText(this.userInput, username, { paste: true })
 	}
 	async typePassword(t, password ) {
-		await t.typeText(this.passwordInput, password)
+		await t.typeText(this.passwordInput, password, { paste: true })
 	}
 
 	async clickLogin(t) {

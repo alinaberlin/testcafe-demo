@@ -28,30 +28,20 @@ fixture`The user login`
 
 //positive test
 test('User should be able to login', async t => {
-	// const userInput = Selector('input').withAttribute('name', 'username')
-	// const passwordInput = Selector('input').withAttribute('name', 'password')
-	//const loginButton = Selector('.btn')
 	const messageLogin = Selector('p').innerText
 
-    
+
     await login.typeUsername(t, 'tilda')
     await login.typePassword(t, '4444')
     await login.clickLogin(t)
-	//await t.typeText(userInput, 'tilda')
-	//await t.typeText(passwordInput, '4444')
-	//await t.click(login.loginButton)
 	await t.expect(messageLogin).contains("You're logged in with React!!")
 })
 test('User cannot login with the invalid credentials', async t => {
-	const userInput = Selector('input').withAttribute('name', 'username')
-	const passwordInput = Selector('input').withAttribute('name', 'password')
-	const loginButton = Selector('.btn')
-
+    await login.typeUsername(t, 'invalid username')
+    await login.typePassword(t, 'invalid password')
+    await login.clickLogin(t)
 	await t
 		.takeScreenshot({ fullPage: true })
-		.typeText(userInput, 'invalid username', { paste: true })
-		.typeText(passwordInput, 'invalid password', { paste: true })
-		.click(loginButton)
 		.expect(Selector('.alert-danger').innerText)
 		.contains('Username or password is incorrect')
 })
