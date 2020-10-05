@@ -17,6 +17,10 @@ class LoginPage {
 	async clickLogin(t) {
 		await t.click(this.loginButton)
 	}
+
+	getLoginButtonText() {
+		return this.loginButton.innerText
+	}
 }
 
 export default LoginPage

@@ -1,4 +1,9 @@
 import { Selector, ClientFunction } from 'testcafe'
+
+import LoginPage from './page-objects/pages/LoginPage'
+
+const login = new LoginPage()
+
 const localStorageSet = ClientFunction((key, value) =>
 	localStorage.setItem(key, value)
 )
@@ -21,17 +26,13 @@ fixture`The user login`
     })
 
 test('User should be able to logout', async t => {
-	const userInput = Selector('input').withAttribute('name', 'username')
-	const passwordInput = Selector('input').withAttribute('name', 'password')
-	const loginButton = Selector('.btn')
 	const messageLogin = Selector('p').innerText
 	const logoutLink = Selector('a').withAttribute('href', '/login')
-	const loginButtonText = loginButton.innerText
 
 	await t.takeScreenshot({ fullPage: true })
-	await t.typeText(userInput, 'tilda')
-	await t.typeText(passwordInput, '4444')
-	await t.click(loginButton)
+    await login.typeUsername(t, 'tilda')
+    await login.typePassword(t, '4444')
+    await login.clickLogin(t)
 	await t.click(logoutLink)
-	await t.expect(loginButtonText).contains('Login')
+	await t.expect(login.getLoginButtonText()).contains('Login')
 })
