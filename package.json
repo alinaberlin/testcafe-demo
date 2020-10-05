@@ -11,6 +11,7 @@
     "start": "webpack-dev-server --open",
     "test-e2e:chrome": "testcafe chrome ./E2E-TESTS -s takeOnFails=true --disable-page-caching",
     "test-e2e:chrome:headless":"testcafe chrome:headless ./E2E-TESTS -s takeOnFails=true",
+    "test-e2e:chrome:headless:5":"testcafe -c5 chrome:headless ./tests -s takeOnFails=true",
     "test-e2e:chrome:mobile": "testcafe chrome:emulation:device=iphone X ./E2E-TESTS -s takeOnFails=true",
     "test-e2e:safari":"testcafe safari ./E2E-TESTS -s takeOnFails=true",
     "test-e2e:firefox":"testcafe firefox ./E2E-TESTS -s takeOnFails=true"
